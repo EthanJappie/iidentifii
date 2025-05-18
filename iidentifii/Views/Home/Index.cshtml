@@ -1,8 +1,35 @@
-﻿@{
+﻿@model iidentifii.Models.Posts.PostOverviewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@{
+    if (SignInManager.IsSignedIn(User))
+    {
+        <button class="btn btn-outline-primary mb-2" id="addPost">Add Post</button>
+    }
+}
+
+@foreach (var post in Model.Posts)
+{
+    <div class="accordion accordion-flush" id="accordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading-@post.PostId">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@post.PostId" aria-expanded="false" aria-controls="flush-collapse-@post.PostId">
+                    @post.Title
+                </button>
+            </h2>
+            <div id="flush-collapse-@post.PostId" class="accordion-collapse collapse" aria-labelledby="flush-heading-@post.PostId" data-bs-parent="#accordion">
+                <div class="accordion-body">@post.Content</div>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <button class="btn btn-outline-secondary" id="addComment">Add Comment</button>
+                }
+            </div>
+        </div>
+    </div>
+}
