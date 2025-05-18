@@ -1,3 +1,4 @@
+using iidentifii.Data;
 using iidentifii.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,10 +8,12 @@ namespace iidentifii.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()

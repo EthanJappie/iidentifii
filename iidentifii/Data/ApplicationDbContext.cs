@@ -28,6 +28,11 @@ namespace iidentifii.Data
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId);
+
+            builder.Entity<Post>().HasData(
+                new Post(1,"First Post", "This is the content of the first post.", 1, null, new List<Comment>()),
+                new Post(2,"Second Post", "This is the content of the second post.", 1, null, new List<Comment>())
+            );
         }
     }
 }

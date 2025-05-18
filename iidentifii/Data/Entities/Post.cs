@@ -15,14 +15,15 @@ namespace iidentifii.Data.Entities
 
         protected Post() { } // For EF Core
 
-        public Post(string? title, string? content, int userId, IdentityUser? user)
+        public Post(int postId, string? title, string? content, int userId, IdentityUser? user, List<Comment> comments)
         {
+            PostId = postId;
             Title = title;
             Content = content;
             PostUserId = userId;
             User = user;
             Likes = 0;
-            Comments = new List<Comment>();
+            Comments = comments;
         }
 
     }

@@ -14,13 +14,14 @@ namespace iidentifii.Data.Entities
 
         protected Comment() { } // For EF Core
 
-        public Comment(string? content, int userId, IdentityUser user, Post post)
+        public Comment(int commentId,string? content, int userId, int postId, int likes)
         {
+            CommentId = commentId;
             Content = content;
-            CommentUserId = userId;
-            User = user;
-            Post = post;
+            CommentUserId = userId;;
             Likes = 0;
+            PostId = postId;
+            Likes = likes;
         }
     }
 }
