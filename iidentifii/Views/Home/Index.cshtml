@@ -27,9 +27,61 @@
                 <div class="accordion-body">@post.Content</div>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <button class="btn btn-outline-secondary" id="addComment">Add Comment</button>
+                    <button class="btn btn-outline-secondary" data-bind-post-id="@post.PostId" id="addComment">Add Comment</button>
                 }
             </div>
         </div>
     </div>
+}
+
+<div class="modal fade" id="addNewCommentModal" aria-labelledby="addNewCommentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Comment</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="comment">Comment</label>
+                    <textarea class="form-control" id="comment" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $().ready(function () {
+            $('#addPost').click(function () {
+                window.location.href = '@Url.Action("Create", "Posts")';
+            });
+            $('#addComment').click(function (e) {
+                e.preventDefault();
+                var postId = $(this).data('bind-post-id');
+                $('#addNewCommentModal').data('post-id', postId).modal('show');
+            });
+            $('#save').click(function () {
+                var comment = $('#comment').val();
+                var postId = $('#addNewCommentModal').data('post-id');
+                $.ajax({
+                    url: '@Url.Action("AddComment", "Posts")',
+                    type: 'POST',
+                    data: { comment: comment, postId: postId },
+                    success: function (response) {
+                        // Handle success response
+                        console.log(response);
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
 }
