@@ -9,19 +9,17 @@ namespace iidentifii.Data.Entities
         public string? Content { get; set; }
         public int PostUserId { get; set; }
         public int Likes { get; set; }
-        public IdentityUser? User { get; set; }
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         protected Post() { } // For EF Core
 
-        public Post(int postId, string? title, string? content, int userId, IdentityUser? user, List<Comment> comments)
+        public Post(int postId, string? title, string? content, int userId, List<Comment> comments)
         {
             PostId = postId;
             Title = title;
             Content = content;
             PostUserId = userId;
-            User = user;
             Likes = 0;
             Comments = comments;
         }

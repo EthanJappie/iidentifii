@@ -8,7 +8,6 @@ namespace iidentifii.Data.Entities
         public string? Content { get; set; }
         public int Likes { get; set; }
         public int CommentUserId { get; set; }
-        public IdentityUser User { get; set; }
         public int PostId { get; set; }
         public Post Post { get; set; }
 
