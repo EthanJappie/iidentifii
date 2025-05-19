@@ -25,6 +25,19 @@
             </h2>
             <div id="flush-collapse-@post.PostId" class="accordion-collapse collapse" aria-labelledby="flush-heading-@post.PostId" data-bs-parent="#accordion">
                 <div class="accordion-body">@post.Content</div>
+                @if(post.Comments.Count > 0)
+                {
+                    <ul class="list-group w-75 float-end">
+                        @foreach (var comment in post.Comments)
+                        {
+                            <li class="list-group-item">
+                                @comment.Content
+                                <span class="text-end">@comment.Likes Likes</span>
+                            </li>
+                        }
+                    </ul>
+                }
+               
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <button class="btn btn-outline-secondary" data-bind-post-id="@post.PostId" id="addComment">Add Comment</button>
