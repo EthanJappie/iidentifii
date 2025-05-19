@@ -17,9 +17,8 @@ namespace iidentifii.Data.Entities
 
         protected Comment() { } // For EF Core
 
-        public Comment(int commentId, string? content, int userId, int postId, int likes)
+        public Comment(string? content, int userId, int postId, int likes)
         {
-            CommentId = commentId;
             Content = content;
             CommentUserId = userId;;
             PostId = postId;

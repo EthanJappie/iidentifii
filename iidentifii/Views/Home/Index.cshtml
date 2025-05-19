@@ -14,6 +14,8 @@
     }
 }
 
+@Html.Hidden("userId", SignInManager.UserManager.GetUserId(User))
+
 @foreach (var post in Model.Posts)
 {
     <div class="accordion accordion-flush" id="accordion">
@@ -67,11 +69,37 @@
     </div>
 </div>
 
+<div class="modal fade" id="addNewPostModal" aria-labelledby="addNewPostModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Post</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="comment">Post</label>
+                    <textarea class="form-control" id="postContent" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="savePost">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script type="text/javascript">
         $().ready(function () {
+            var userId = $("#userId").val();
+
             $('#addPost').click(function () {
-                window.location.href = '@Url.Action("Create", "Posts")';
+                $('#addNewPostModal').modal('show');
             });
             $('#addComment').click(function (e) {
                 e.preventDefault();
@@ -82,10 +110,31 @@
                 var comment = $('#comment').val();
                 var postId = $('#addNewCommentModal').data('post-id');
                 $.ajax({
-                    url: '@Url.Action("AddComment", "Posts")',
+                    url: '@Url.Action("AddComment", "Home")',
                     type: 'POST',
-                    data: { comment: comment, postId: postId },
+                    data: { comment: comment, postId: postId, userId: userId },
                     success: function (response) {
+                        // Handle success response
+                        console.log(response);
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#savePost').click(function () {
+                var content = $('#postContent').val();
+                var title = $('#title').val();
+                $.ajax({
+                    url: '@Url.Action("AddPost", "Home")',
+                    type: 'POST',
+                    data: { content: content, title: title, userId: userId },
+                    success: function (response) {
+
+                        location.reload();
                         // Handle success response
                         console.log(response);
                     },

@@ -18,9 +18,8 @@ namespace iidentifii.Data.Entities
 
         protected Post() { } // For EF Core
 
-        public Post(int postId,string? title, string? content, int userId)
+        public Post(string? title, string? content, int userId)
         {
-            PostId = postId;
             Title = title;
             Content = content;
             PostUserId = userId;

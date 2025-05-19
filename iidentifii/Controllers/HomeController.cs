@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
 using iidentifii.EntityModelMappers;
+using Microsoft.Extensions.Primitives;
 
 namespace iidentifii.Controllers
 {
@@ -30,6 +31,19 @@ namespace iidentifii.Controllers
             var posts = _dbContext.GetPosts();
             var postViewModels = EntityMapping.MapPostsToViewModels(posts);
             return View(postViewModels);
+        }
+
+        public IActionResult AddComment(string comment, int postId, int userId)
+        {
+            _dbContext.AddComment(new Comment(comment, userId, postId, 0));
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult AddPost(string title, string content, int userId)
+        {
+            _dbContext.AddPost(new Post(title, content, userId));
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
